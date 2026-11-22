@@ -5,6 +5,7 @@ import { Battle } from './battle.js';
 import { LEVELS, BOSS_NEXT, SCRIPT, SHOP, ENEMIES, PARTNERS } from './data.js';
 import { S, game, newGame, loadGame, hasSave, saveGame, ITEMS, addItem, healAll, flag, setFlag, carrotCount, eraseSave, SP_PER_LEVEL } from './state.js';
 import { ui, say, pick, banner, toast, prompt, hudBuild, hudUpdate, hudShow, irisClose, irisOpen, updateModal, flash, uiTick, after, tween } from './ui.js';
+import './touch.js';
 import { pollPad, wasHit, endFrame, isDown, anyHit, padConnected } from './input.js';
 import { sfx, unlock, playMusic, stopMusic, setVolumes, getVolumes, toggleMute } from './audio.js';
 

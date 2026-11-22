@@ -1,6 +1,6 @@
 import { inject } from '../../js/input.js';
 export default async (pq, q) => {
-  const p0 = pq.start(q.get('lv') || 'park1', 12); await pq.run(150); await p0;
+  const p0 = pq.start(q.get('lv') || 'street', 12); await pq.run(150); await p0;
   const en = pq.world.enemies.find((e) => e.t === (q.get('e') || 'hippo')) || pq.world.enemies[0];
   const grp = q.get('g'); if (grp) en.group = grp.split(',');
   const sp0 = pq.S().sp, coins0 = pq.S().coins;

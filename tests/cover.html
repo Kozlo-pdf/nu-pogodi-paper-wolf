@@ -1,0 +1,26 @@
+<!doctype html><meta charset=utf-8>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:#222}canvas{display:block}</style>
+<canvas id=c width=630 height=500></canvas>
+<script type=module>
+import * as A from '../js/art.js';
+await document.fonts.load('80px Bangers'); await new Promise(r=>setTimeout(r,300));
+const c=document.getElementById('c'),g=c.getContext('2d');
+// warm sunburst background
+const bg=g.createLinearGradient(0,0,0,500); bg.addColorStop(0,'#ffb347'); bg.addColorStop(1,'#ff6a3a'); g.fillStyle=bg; g.fillRect(0,0,630,500);
+g.save(); g.translate(315,330); for(let i=0;i<24;i++){g.rotate(Math.PI/12); g.fillStyle=i%2?'rgba(255,240,200,.22)':'rgba(255,240,200,0)'; g.beginPath(); g.moveTo(0,0); g.lineTo(700,-60); g.lineTo(700,60); g.fill();} g.restore();
+// torn-paper desk strip
+g.fillStyle='#f6ecd6'; g.beginPath(); g.moveTo(0,420); for(let x=0;x<=630;x+=21) g.lineTo(x,412+((x/21)%2?10:0)); g.lineTo(630,500); g.lineTo(0,500); g.fill();
+const put=(cv,x,y,h,rot=0,flip=false)=>{const s=h/cv.height; g.save(); g.translate(x,y); g.rotate(rot); if(flip) g.scale(-1,1); g.shadowColor='rgba(0,0,0,.35)'; g.shadowBlur=14; g.shadowOffsetY=8; g.drawImage(cv,-cv.width*s/2,-cv.height*s,cv.width*s,h); g.restore();};
+put(A.drawEraser(),520,395,300,0.08);
+put(A.drawHedgehog(),95,470,120,-0.05);
+put(A.drawFox(),205,470,150);
+put(A.drawLifeguard(),570,480,0);
+put(A.drawWolf('happy'),315,490,360);
+put(A.drawHare(),470,200,120,0.6,false);
+// title
+g.textAlign='center'; g.lineJoin='round';
+const t=(s,y,sz,fill)=>{g.font=`${sz}px Bangers`; g.lineWidth=sz/6; g.strokeStyle='#3a2418'; g.strokeText(s,315,y); g.fillStyle=fill; g.fillText(s,315,y);};
+g.save(); g.rotate(-0.03); g.translate(0,6); t('PAPER WOLF',88,104,'#fff6e3'); t('THE THOUSAND-YEAR CHASE',130,36,'#ffd23f'); g.restore();
+document.title='done';
+</script>

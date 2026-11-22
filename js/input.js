@@ -7,6 +7,10 @@ const MAP = {
 };
 let down = {}, hit = {};
 const gp = { down: {}, hit: {} };
+const tc = { down: {}, hit: {} }; // on-screen touch controls
+export const touch = {
+  set(a, v) { if (v && !tc.down[a]) tc.hit[a] = true; tc.down[a] = v; },
+};
 const PREVENT = new Set(['Space', 'Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Backspace']);
 
 addEventListener('keydown', (e) => {
@@ -17,10 +21,10 @@ addEventListener('keydown', (e) => {
 addEventListener('keyup', (e) => { down[e.code] = false; });
 addEventListener('blur', () => { down = {}; });
 
-export const isDown = (a) => (MAP[a] || []).some((k) => down[k]) || !!gp.down[a];
-export const wasHit = (a) => (MAP[a] || []).some((k) => hit[k]) || !!gp.hit[a];
-export const anyHit = () => Object.keys(hit).length > 0 || Object.keys(gp.hit).length > 0;
-export function endFrame() { hit = {}; gp.hit = {}; }
+export const isDown = (a) => (MAP[a] || []).some((k) => down[k]) || !!gp.down[a] || !!tc.down[a];
+export const wasHit = (a) => (MAP[a] || []).some((k) => hit[k]) || !!gp.hit[a] || !!tc.hit[a];
+export const anyHit = () => Object.keys(hit).length > 0 || Object.keys(gp.hit).length > 0 || Object.keys(tc.hit).length > 0;
+export function endFrame() { hit = {}; gp.hit = {}; tc.hit = {}; }
 
 // synthetic input for touch / tests
 const holds = {};
