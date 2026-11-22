@@ -432,7 +432,7 @@ export class Battle {
       // wind-up / approach
       const mx = targets[0].x + 2.2;
       if (a.kind === 'melee' || a.kind === 'multi') {
-        const first = h === 0; this.tr('melee' + h);
+        const first = h === 0;
         if (first) await this.tween(0.42, (u) => { spr.root.position.x = lerp(x0, mx, ease.out(u)); spr.body.position.y = Math.abs(Math.sin(u * 9)) * 0.2; });
         this.pop('!', mx, d.h + 0.7, '#ff4a4a', 90, 1.4); sfx.alert();
         await this.tween(0.5, (u) => { spr.body.rotation.z = -u * 0.5 * -1 * 0.8; spr.body.position.y = u * 0.5; });
