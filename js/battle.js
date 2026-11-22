@@ -1,4 +1,4 @@
-import { PaperSprite, THREE, clamp, lerp, ease, textSprite, texOf, damp } from './paper.js';
+﻿import { PaperSprite, THREE, clamp, lerp, ease, textSprite, texOf, damp } from './paper.js';
 import * as A from './art.js';
 import { wasHit, isDown } from './input.js';
 import { sfx, playMusic, stopMusic, rumble } from './audio.js';
@@ -36,6 +36,7 @@ export class Battle {
     stage.updaters.push((dt) => this.tick(dt));
   }
 
+  tr(n) { (this._tr = this._tr || []).push(n + '@' + this.t.toFixed(1)); if (this._tr.length > 14) this._tr.shift(); }
   /* ---------- infrastructure ---------- */
   tick(dt) {
     this.t += dt;
@@ -400,7 +401,7 @@ export class Battle {
 
   async enemyTurn(f) {
     const d = f.def, few = this.living().length <= 2 && this.foes.length < 4;
-    if (d.phase2 && !f.p2 && f.hp <= f.maxHp / 2) { f.p2 = true; f.attacks = d.attacks2; sfx.boom(); flash(); this.st.shake = 1.4; f.spr.root.scale.setScalar(1.22); this.pop('PHASE 2: GIANT!', 0, 5.4, '#ff6a3a', 66, 5); await this.sleep(0.9); }
+    if (d.phase2 && !f.p2 && f.hp <= f.maxHp / 2) { f.p2 = true; f.attacks = d.attacks2; sfx.slam(); flash(); this.st.shake = 1.4; f.spr.root.scale.setScalar(1.22); this.pop('PHASE 2: GIANT!', 0, 5.4, '#ff6a3a', 66, 5); await this.sleep(0.9); }
     const opts = (f.attacks || d.attacks).filter((a) => (a.when === 'few' ? few : true));
     const a = pickW(opts); const tgt = this.pickTarget(); f.busy = true;
     const spr = f.spr, x0 = f.x, y0 = f.baseY;
@@ -431,7 +432,7 @@ export class Battle {
       // wind-up / approach
       const mx = targets[0].x + 2.2;
       if (a.kind === 'melee' || a.kind === 'multi') {
-        const first = h === 0;
+        const first = h === 0; this.tr('melee' + h);
         if (first) await this.tween(0.42, (u) => { spr.root.position.x = lerp(x0, mx, ease.out(u)); spr.body.position.y = Math.abs(Math.sin(u * 9)) * 0.2; });
         this.pop('!', mx, d.h + 0.7, '#ff4a4a', 90, 1.4); sfx.alert();
         await this.tween(0.5, (u) => { spr.body.rotation.z = -u * 0.5 * -1 * 0.8; spr.body.position.y = u * 0.5; });
