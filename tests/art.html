@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><title>art</title>
+<style>body{margin:0;background:#7bb6e0;font:12px sans-serif;display:flex;flex-wrap:wrap;gap:10px;padding:10px;align-items:flex-end}canvas{height:var(--h,230px);width:auto;background:transparent}</style>
+<script type="module">
+import * as A from '../js/art.js';
+const g = new URLSearchParams(location.search).get('g') || '1';
+const sets = {
+  1: [A.drawHare(), A.drawHare('hurt'), A.drawHare('happy'), A.drawWolf(), A.drawWolf('hurt'), A.drawWolf('happy'), A.drawHippo(), A.drawHippo('hurt'), A.drawHippo('normal', true)],
+  2: [A.drawPigeon(), A.drawPigeon('normal', 1), A.drawBee(), A.drawBee('normal', 1), A.drawMushroom(), A.drawMushroom('hurt'), A.drawRobotHare(), A.drawRobotHare('hurt'), A.drawOwl(), A.drawMole()],
+  3: [A.drawBear(), A.drawBear('hurt'), A.drawWitch(), A.drawWitch('hurt'), A.drawMegaRobot(), A.drawMegaRobot('hurt')],
+  4: [A.drawCoin(), A.drawCarrot(), A.drawBlock('q'), A.drawBlock('brick'), A.drawBlock('crack'), A.drawBlock('save'), A.drawBlock('used'), A.drawHeart(), A.drawTree(0), A.drawTree(2), A.drawBush(), A.drawHouse(), A.drawTent(), A.drawFerris(), A.drawFence(), A.drawSign('Hi'), A.drawDoor(), A.drawWell(), A.drawMushroomProp(), A.drawBalloonProp(), A.drawAudience(0), A.drawAudience(1), A.drawAudience(2), A.drawAudience(3)],
+  5: ['park', 'forest', 'circus', 'dacha', 'library'].map((k) => A.drawBackdrop(k)),
+};
+document.documentElement.style.setProperty('--h', g === '3' ? '340px' : g === '4' ? '190px' : g === '5' ? '230px' : '300px');
+(sets[g] || []).forEach((c) => { if (g === '5') c.style.height = '240px'; document.body.append(c); });
+</script>

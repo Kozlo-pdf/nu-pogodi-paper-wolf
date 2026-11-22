@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Play – Paper Wolf: The Thousand-Year Chase</title>
+  <meta name="description" content="Paper Wolf: The Thousand-Year Chase, a free fan-made paper-craft RPG starring the Wolf.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/game.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="grain"></div>
+  <div id="hud" class="hidden"></div>
+  <div id="banner" class="hidden"></div>
+  <div id="toast" class="hidden"></div>
+  <div id="prompt" class="hidden"></div>
+  <div id="dialog" class="hidden"><div id="d-name"></div><canvas id="d-face" width="132" height="132"></canvas><div id="d-text"></div><div id="d-next">▼</div></div>
+  <div id="menu" class="hidden"></div>
+  <div id="battle-ui" class="hidden"></div>
+  <div id="iris"></div>
+  <div id="title" class="hidden"></div>
+  <div id="fatal" class="hidden"><div><h2>The game could not start</h2><p id="fatal-msg"></p></div></div>
+  <script>
+    (function () {
+      var box = document.getElementById('fatal'), msg = document.getElementById('fatal-msg');
+      function show(t) { msg.innerHTML = t; box.classList.remove('hidden'); }
+      if (location.protocol === 'file:') { show('Browsers block game scripts when a page is opened straight from a folder.<br><br><b>Fix:</b> double-click <code>PLAY.bat</code> (it starts a tiny local server), or play online.'); return; }
+      addEventListener('unhandledrejection', function (e) { show('Something went wrong: ' + ((e.reason && (e.reason.stack || e.reason.message)) || e.reason) + '<br>Try reloading, or use Chrome, Edge or Firefox.'); });
+      addEventListener('error', function (e) { show('Something went wrong: ' + (e.message || 'script error') + '<br>Try Chrome, Edge or Firefox with WebGL enabled.'); });
+      setTimeout(function () { if (!window.__pq) show('The game is taking too long to load. Check your connection and reload.'); }, 9000);
+    })();
+  </script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

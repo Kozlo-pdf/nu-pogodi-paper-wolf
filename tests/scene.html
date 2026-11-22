@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><title>scene</title>
+<style>html,body{margin:0;height:100%;background:#222}canvas{width:100vw;height:100vh;display:block}</style>
+<canvas id="c"></canvas>
+<script type="importmap">{ "imports": { "three": "../vendor/three.module.js" } }</script>
+<pre id="err" style="position:fixed;top:0;left:0;color:#fff;z-index:9"></pre>
+<script>addEventListener('error',e=>{document.getElementById('err').textContent+=e.message+'
+'});addEventListener('unhandledrejection',e=>{document.getElementById('err').textContent+=String(e.reason)+'
+'})</script>
+<script type="module">
+import { Stage, PaperSprite, THREE, THEMES, addGround, addPlatform, textSprite } from '../js/paper.js';
+import * as A from '../js/art.js';
+const q = new URLSearchParams(location.search); const kind = q.get('k') || 'park';
+const st = new Stage(document.getElementById('c')); st.newScene(0xbfe3ff); const th = THEMES[kind];
+st.addBackdrop(kind);
+addGround(st.scene, -30, 30, th);
+const place = (key, make, h, x, z = 0, opts) => { const s = new PaperSprite(key, make, h, opts); s.root.position.set(x, 0, z); st.scene.add(s.root); return s; };
+// midground props
+place('tree0', () => A.drawTree(0), 6, -9, -5, { shadow: false }); place('tree1', () => A.drawTree(1), 5, 8, -6, { shadow: false });
+place('house', () => A.drawHouse(), 5, 4, -8, { shadow: false }); place('tent', () => A.drawTent(), 5.5, -3, -9, { shadow: false });
+place('bush', () => A.drawBush(), 1.4, -5.5, -1); place('fence', () => A.drawFence(), 1.2, 6.5, -1);
+addPlatform(st.scene, 2.5, 3.2, 4.5, th);
+const hare = place('hare', () => A.drawHare(), 2.1, -1.2); const wolf = place('wolf', () => A.drawWolf(), 2.3, -3.2);
+const hip = place('hippo', () => A.drawHippo(), 2.4, 2.5); hip.face(-1); hip.flip = Math.PI; hip.body.rotation.y = Math.PI;
+const blk = place('bq', () => A.drawBlock('q'), 1.1, 0.8); blk.root.position.y = 3.0;
+const coin = place('coin', () => A.drawCoin(), 0.7, 2.6); coin.root.position.y = 4.6;
+const t = textSprite('12', { color: '#ffd23f' }); t.position.set(2.5, 3.6, 1); st.scene.add(t);
+st.camX = 0; const loop = () => { st.update(0.016); for (const s of [hare, wolf, hip]) s.update(0.016); st.render(); requestAnimationFrame(loop); }; loop();
+</script>
